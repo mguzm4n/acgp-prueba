@@ -28,7 +28,7 @@ function App() {
           <div>
             {data?.map(b => (<div key={b.id}
               className="text-sm font-medium text-gray-700 mb-1">
-              {b.id} - Libro "{b.title}", por el author { b.authorName }.
+              {b.id} - Libro "{b.title}", por el autor { b.authorName }.
             </div>))}
           </div>
         </div>

@@ -1,15 +1,18 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { BookForm, ValidationErrs } from "../utils/books/types";
 import { validateForm } from "../utils/books/validation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createBook } from "../services/books";
 
 const BooksForm = () => {
+  const formRef = useRef<HTMLFormElement>(null);
+
   const queryClient = useQueryClient();
   const bookMut = useMutation({
     mutationFn:  createBook,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['books'] });
+      formRef.current?.reset();
     },
     onError: (e) => {
       console.error('error: ', e);
@@ -41,7 +44,8 @@ const BooksForm = () => {
   };
 
   return (
-    <form onSubmit={onSubmit} className="space-y-4">
+    <form ref={formRef}
+      onSubmit={onSubmit} className="space-y-4">
       <div>
         <label htmlFor="authorName" className="block text-sm font-medium text-gray-700 mb-1">
           Nombre del autor
